@@ -10,12 +10,11 @@ const Header = () => {
   const {user, onClose} = useTelegram();
 
 
-
   return (
     <div className="header">
       <Button onClick={onClose}>Закрити</Button>
       <span className="userName">
-        {!!user ? user.username : "some user"}
+        {!!user?.username ? user.username : "some user"}
       </span>
 
     </div>
