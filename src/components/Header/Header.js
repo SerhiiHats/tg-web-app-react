@@ -14,7 +14,7 @@ const Header = () => {
     <div className="header">
       <Button onClick={onClose}>Закрити</Button>
       <span className="userName">
-        {!!user?.username ? user.username : "some user"}
+        {!!user?.username ? user.username : "user"}
       </span>
 
     </div>

@@ -25,7 +25,6 @@ function App() {
           <Route path={"/form"} element={<Form/>}/>
       </Routes>
       <Button className={"toggleButton"} onClick={onToggleButton}>toggle</Button>
-      <Link to={"/form"}>Go to form</Link>
     </div>
   );
 }

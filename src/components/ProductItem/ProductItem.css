@@ -8,19 +8,22 @@
     width: 170px;
 }
 
+.title {
+    margin-bottom: 0.5em;
+}
+
 .img {
     width: 100px;
-    background: lightgrey;
-
     height: 100px;
     margin: 0 auto 10px;
-    padding: 2px;
     background: var(--tg-theme-bg-color);
+    /*background: lightgrey;*/
     /*background: #2098d4;*/
 }
 
 .description {
     font-size: 0.8em;
+    margin-bottom: 0.8em;
 }
 
 .add-btn {
