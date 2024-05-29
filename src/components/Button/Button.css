@@ -1,16 +1,15 @@
-.button{
+.button {
     padding: 10px 10px;
     background: var(--tg-theme-button-color);
     /*background: #2098d4;*/
     color: var(--tg-theme-text-color);
-    /*border: none;*/
     border: 1px solid var(--tg-theme-button-color);
     border-radius: 10px;
     outline: none;
     cursor: pointer;
 }
 
-.toggleButton{
-    margin-left:20px;
+.toggleButton {
+    margin-left: 20px;
     padding: 10px 16px;
 }

@@ -1,24 +1,49 @@
 import "./ProductList.css";
-import React from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import ProductItem from "../ProductItem/ProductItem";
-
+import {products} from "../../db_fake/db_fake";
+import {useTelegram} from "../../hooks/useTelegram";
 
 
 const ProductList = () => {
-  const products = [
-    {id: "1", title: "Джинси", price: 1200, description: "Блакитного кольору"},
-    {id: "2", title: "Сорочка", price: 900, description: "Фіолетового кольору"},
-    {id: "3", title: "Футболка", price: 700, description: "Червоного кольору"},
-    {id: "4", title: "Жакет", price: 1500, description: "Темного кольору"},
-    {id: "5", title: "Спідниця", price: 1200, description: "Білого кольору"},
-    {id: "6", title: "Куртка", price: 2700, description: "Сафарі кольору"},
-    {id: "7", title: "Поло", price: 1600, description: "Синього кольору"},
-    {id: "8", title: "Піджак", price: 2150, description: "Сірого кольору"},
-  ]
-  const onAdd = ()=>{}
+  const [things, setThings] = useState([]);
+  const {tg} = useTelegram();
+
+
+  const onAdd = useCallback((thing) => {
+    const {id} = thing;
+    const newThing = {...thing, quantity: 1};
+
+    setThings((prevThings) => {
+      const index = prevThings.findIndex(item => item.id === id);
+
+      if (index > -1) {
+        return prevThings.map((item, idx) =>
+          idx === index ? {...item, quantity: item.quantity + 1} : item
+        );
+      } else {
+        return [...prevThings, newThing];
+      }
+    });
+  }, []);
+
+  const totalAmount = useMemo(() => {
+    return things.reduce((total, thing) => total + thing.quantity * thing.price, 0);
+  }, [things]);
+
+  if (!!things.length) {
+    tg.MainButton.show();
+    tg.MainButton.setParams({
+      text: `Купити ${totalAmount}`,
+    })
+  } else {
+    tg.MainButton.hide();
+  }
+
+
   return (
     <div className={"list"}>
-      {products.map(item=>(
+      {products.map(item => (
         <ProductItem className={"item"} key={item.id}
                      product={item}
                      onAdd={onAdd}/>

@@ -9,20 +9,23 @@
 }
 
 .title {
+    margin-top: 0.2em;
     margin-bottom: 0.5em;
 }
 
 .img {
     width: 100px;
     height: 100px;
-    margin: 0 auto 10px;
-    background: var(--tg-theme-bg-color);
-    /*background: lightgrey;*/
-    /*background: #2098d4;*/
+    margin: 0 auto;
+    background: lightgrey;
 }
 
 .description {
     font-size: 0.8em;
+    margin-bottom: 0.5em;
+}
+
+.price {
     margin-bottom: 0.8em;
 }
 
