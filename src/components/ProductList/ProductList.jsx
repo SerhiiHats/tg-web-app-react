@@ -21,9 +21,9 @@ const ProductList = () => {
     fetch("http://localhost:8000", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(data),
     })
 
     if (tg.sendData) {
