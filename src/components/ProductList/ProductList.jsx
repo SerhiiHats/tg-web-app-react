@@ -9,6 +9,8 @@ const ProductList = () => {
   const [things, setThings] = useState([]);
   const {tg, query_id} = useTelegram();
 
+  const URL_NGROK_PROXY = "https://1573-5-53-113-91.ngrok-free.app";
+
   const totalAmount = (things) => things.reduce((total, thing) => total + thing.quantity * thing.price, 0);
 
   const onSendData = useCallback(() => {
@@ -18,19 +20,20 @@ const ProductList = () => {
       totalPrice: totalAmount(things)
     };
 
-    fetch("http://localhost:8000", {
+    fetch(`${URL_NGROK_PROXY}/web-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": true,
       },
       body: JSON.stringify(data),
     })
 
-    if (tg.sendData) {
-      tg.sendData(JSON.stringify(data));
-    }
+    // if (tg.sendData) {
+    //   tg.sendData(JSON.stringify(data));
+    // }
 
-  }, [things])
+  }, [things, query_id])
 
 
   useEffect(() => {
