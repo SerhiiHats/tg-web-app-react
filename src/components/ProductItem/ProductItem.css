@@ -13,11 +13,15 @@
     margin-bottom: 0.5em;
 }
 
-.img {
+.wrapImg {
     width: 100px;
     height: 100px;
     margin: 0 auto;
     background: lightgrey;
+}
+
+.img {
+    width: 100%;
 }
 
 .description {

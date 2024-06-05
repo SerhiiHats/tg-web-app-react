@@ -1,5 +1,5 @@
 import "./ProductList.css";
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ProductItem from "../ProductItem/ProductItem";
 import {products} from "../../db_fake/db_fake";
 import {useTelegram} from "../../hooks/useTelegram";
@@ -7,8 +7,37 @@ import {useTelegram} from "../../hooks/useTelegram";
 
 const ProductList = () => {
   const [things, setThings] = useState([]);
-  const {tg} = useTelegram();
+  const {tg, query_id} = useTelegram();
 
+  const totalAmount = (things) => things.reduce((total, thing) => total + thing.quantity * thing.price, 0);
+
+  const onSendData = useCallback(() => {
+    const data = {
+      query_id,
+      products: things,
+      totalPrice: totalAmount(things)
+    };
+
+    fetch("http://localhost:8000", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: data,
+    })
+
+    if (tg.sendData) {
+      tg.sendData(JSON.stringify(data));
+    }
+
+  }, [things])
+
+
+  useEffect(() => {
+    tg.onEvent('mainButtonClicked', onSendData);
+
+    return () => tg.offEvent('mainButtonClicked', onSendData)
+  }, [onSendData])
 
   const onAdd = useCallback((thing) => {
     const {id} = thing;
@@ -27,14 +56,10 @@ const ProductList = () => {
     });
   }, []);
 
-  const totalAmount = useMemo(() => {
-    return things.reduce((total, thing) => total + thing.quantity * thing.price, 0);
-  }, [things]);
-
   if (!!things.length) {
     tg.MainButton.show();
     tg.MainButton.setParams({
-      text: `Купити ${totalAmount}`,
+      text: `Купити ${totalAmount(things)}`,
     })
   } else {
     tg.MainButton.hide();
@@ -46,7 +71,8 @@ const ProductList = () => {
       {products.map(item => (
         <ProductItem className={"item"} key={item.id}
                      product={item}
-                     onAdd={onAdd}/>
+                     onAdd={onAdd}
+        />
       ))}
     </div>
   );
